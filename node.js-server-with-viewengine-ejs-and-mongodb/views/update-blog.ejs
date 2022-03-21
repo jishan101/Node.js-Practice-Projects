@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- <%- include("./partials/head") %> -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+            margin: 3rem;
+            color: black;
+        }
+
+        .delete {
+            color: rgb(12, 175, 224);
+            /* text-align: right; */
+        }
+
+        .update {
+            color: rgb(12, 175, 224);
+            margin-right: 8px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: rgb(12, 175, 224);
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+    <title><%= title %> | Node.js Server Test</title>
+</head>
+<body>
+    <%- include("./partials/nav") %>
+    <div class="create-blog content">
+        <h2>Update Blog</h2>
+        <form action="/blogs/<%= blog._id %>" method="post">
+            <div>
+                <label for="title">Blog title:</label>
+            </div>
+                <input type="text" id="title" name="title" data-title="<%= blog.title %>" required>
+            <div>
+                <label for="snippet">Blog snippet:</label>
+            </div>
+                <input type="text" id="snippet" name="snippet" data-snippet="<%= blog.snippet %>" required>
+            <div>
+                <label for="body">Blog body:</label>
+            </div>
+                <textarea id="body" name="body" cols="25" rows="5" data-body="<%= blog.body %>" required></textarea>
+            <div>
+                <button id="updateBtn" data-id="<%= blog._id %>" href="">Update</button>
+            </div>
+        </form>
+    </div>
+    <%- include("./partials/footer") %>
+
+    <script>
+        const titleInput = document.querySelector("#title");
+        const snippetInput = document.querySelector("#snippet");
+        const bodyInput = document.querySelector("#body");
+        const updateBtn = document.querySelector("#updateBtn");
+
+        titleInput.value = titleInput.dataset.title;
+        snippetInput.value = snippetInput.dataset.snippet;
+        bodyInput.value = bodyInput.dataset.body;
+
+        updateBtn.addEventListener("click", e => {
+            const link = `/blogs/${updateBtn.dataset.id}`;
+
+            fetch(link, {
+                method: "put"
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    window.location.href = data.redirect;
+                })
+                .catch(err => console.log(err));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Quicksand', sans-serif;
+            text-decoration: none;
+        }
+
+        body {
+            max-width: 900px;
+            margin: auto;
+            justify-items: center;
+        }
+
+        body a {
+            color: #45B39D;
+        }
+
+        nav {
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        nav .title {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .links {
+            margin-left: auto;
+        }
+
+        .links input {
+            height: 1.5rem;
+            width: 10rem;
+            margin-right: 1rem;
+        }
+
+        .links a {
+            font-weight: 650;
+            margin-left: 1.5rem;
+        }
+
+        .links .newBlogBtn {
+            color: #fafafa;
+            background-color: #45B39D;
+            padding: 7px 16px;
+            border-radius: 4px;
+        }
+
+        .blogDetails {
+            margin: 3rem 2rem;
+        }
+
+        .blogDetails p {
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+
+        .authorName {
+            color: #45B39D;
+        }
+
+        .deleteBtn {
+            font-size: medium;
+            font-weight: 650;
+            color: #fafafa;
+            background-color: #45B39D;
+            margin-top: 10px;
+            border: 0;
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            margin: 3rem;
+        }
+    </style>
+    <title>
+        <%= title %> | Express App
+    </title>
+</head>
+
+<body>
+    <%- include("./partials/navbar") %>
+    <div class="blogDetails">
+        <h1><%= blog.title %></h1>
+        <p><%= blog.body %></p>
+        <H3>Authored by <span class="authorName"><%= blog.author %></span></H3>
+        <button class="deleteBtn" data-id="<%= blog._id %>">Delete</button>
+    </div>
+    <%- include("./partials/footer") %>
+    <script>
+        const deleteBtn = document.querySelector(".deleteBtn");
+
+        deleteBtn.addEventListener("click", (e) => {
+            const link = `/blogs/${deleteBtn.dataset.id}`;
+
+            fetch(link, {
+                method: "delete"
+            })
+                .then(res => res.json())
+                .then(data => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+        });
+    </script>
+</body>
+
+</html>
+

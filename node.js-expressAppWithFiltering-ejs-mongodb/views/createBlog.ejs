@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("./partials/head") %>
+<body>
+    <%- include("./partials/navbar") %>
+    <div class="newBlog">
+        <h2>Create A New Blog</h2>
+        <form action="/blogs" method="post" autocomplete="on">
+            <div>
+                <label for="title">Title:</label>
+            </div>
+            <div>
+                <input type="text" name="title" id="title" required>
+            </div>
+            <div>
+                <label for="snippet">Snippet:</label>
+            </div>
+            <div>
+                <input type="text" name="snippet" id="snippet" required>
+            </div>
+            <div>
+                <label for="body">Body:</label>
+            </div>
+            <div>
+                <textarea name="body" id="body" cols="65" rows="10" required></textarea>
+            </div>
+            <div>
+                <label for="author">Author:</label>
+            </div>
+            <div>
+                <input type="text" name="author" id="author" required>
+            </div>
+            <div>
+                <button>Submit</button>
+            </div>
+        </form>
+    </div>
+    <%- include("./partials/footer") %>
+</body>
+</html>
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("./partials/head") %>
+<body>
+    <%- include("./partials/navbar") %>
+    <div class="blogList">
+        <h1>All Blogs!</h1>
+        <% if(blogs.length === 0) { %>
+            <p>No Blogs yet . . .</p>
+        <% }
+        blogs.forEach(blog => { %>
+            <div class="blogPreview" key=<%= blog._id %>>
+                <a href="/blogs/<%= blog._id %>" class="blogLink"><h2 class="blogTitle"><%= blog.title %></h2></a>
+                <p class="blogSnippet"><%= blog.snippet %></p>
+                <h3>Authored by <%= blog.author %></h3>
+            </div>
+        <% }); %>
+    </div>
+    <div class="filteredBlogs" style="display: none;">
+        <h1>Filtered Blogs:</h1>
+        <p class="noBlogs" style="display: none;">No Blogs Found . . .</p>
+    </div>
+    <%- include("./partials/footer") %>
+    <script>
+        const blogListElm = document.querySelector(".blogList");
+        const filterElm = document.querySelector(".filter");
+        const filteredBlogsElm = document.querySelector(".filteredBlogs");
+        const noBlogsElm = document.querySelector(".noBlogs");
+
+        filterElm.style.display = "inline-block";
+        
+        const blogs = <%- JSON.stringify(blogs) %>;
+
+        filterElm.addEventListener("keyup", e => {
+            let filteredBlogList = [];
+
+            if(filterElm.value === "" || filterElm.value === " ") {
+                blogListElm.style.display = "block";
+                filteredBlogsElm.style.display = "none";
+
+                [...filteredBlogsElm.children].forEach(c => {
+                    if(!(c.tagName === "H1" || c.tagName === "P")) {
+                        c.remove();
+                    }
+                });
+
+                noBlogsElm.style.display = "block";
+            } else {
+                blogListElm.style.display = "none";
+                filteredBlogsElm.style.display = "block";
+
+                [...filteredBlogsElm.children].forEach(c => {
+                    if(!(c.tagName === "H1" || c.tagName === "P")) {
+                        c.remove();
+                    }
+                });
+
+                filteredBlogList = blogs.filter(blog => blog.title.toUpperCase().includes(filterElm.value.toUpperCase()) || filterElm.value.toUpperCase() === blog.author.toUpperCase());
+
+                if(filteredBlogList.length === 0) {
+                    noBlogsElm.style.display = "block";
+                } else {
+                    noBlogsElm.style.display = "none";
+                }
+
+                filteredBlogList.forEach(blog => {
+                    filteredBlogsElm.insertAdjacentHTML("beforeend", `<div class="blogPreview" key=${blog._id}><a href="/blogs/${blog._id}" class="blogLink"><h2 class="blogTitle">${blog.title}</h2></a><p class="blogSnippet">${blog.snippet}</p><h3>Authored by ${blog.author}</h3></div>`);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

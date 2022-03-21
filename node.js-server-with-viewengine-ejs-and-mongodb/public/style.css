@@ -1,0 +1,19 @@
+body {
+    margin: 3rem;
+    color: black;
+}
+
+footer {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+footer a {
+    color: rgb(12, 175, 224);
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
